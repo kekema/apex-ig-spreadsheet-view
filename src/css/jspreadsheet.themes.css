@@ -1,0 +1,189 @@
+/* Taken from https://bossanova.uk/jspreadsheet/v5/jspreadsheet.themes.css */
+/* Custom theme class(es) can be added to the bottom */
+/* Also see: https://bossanova.uk/jspreadsheet/docs/themes */
+
+.jss_worksheet > thead > tr > td
+{
+    border-top: 1px solid var(--border_color, #ccc);
+    border-left: 1px solid var(--border_color, #ccc);
+    background-color: var(--header_background, #f3f3f3);
+    color: var(--header_color, #000);
+}
+
+.jss_worksheet > thead > tr > td.selected
+{
+    background-color: var(--header_background_highlighted, #dcdcdc);
+    color: var(--header_color_highlighted, #000);
+}
+
+.jss_worksheet > tbody > tr > td:first-child
+{
+    background-color: var(--header_background, #f3f3f3);
+    color: var(--header_color, #000);
+}
+
+.jss_worksheet > tbody > tr > td
+{
+    background-color: var(--content_background, #fff);
+    color: var(--content_color, #000);
+    border-top: 1px solid var(--border_color, #ccc);
+    border-left: 1px solid var(--border_color, #ccc);
+}
+
+.jss_worksheet > tbody > tr.selected > td:first-child
+{
+    background-color: var(--header_background_highlighted, #dcdcdc);
+    color: var(--header_color_highlighted, #000);
+}
+
+.jss_worksheet .highlight {
+    background-color: var(--selection, rgba(0,0,0,0.05));
+}
+
+.jss_worksheet .highlight-top {
+    border-top:1px solid var(--border_color_highlighted, #000);
+}
+
+.jss_worksheet .highlight-left {
+    border-left:1px solid var(--border_color_highlighted, #000);
+}
+
+.jss_worksheet .highlight-right {
+    border-right:1px solid var(--border_color_highlighted, #000);
+}
+
+.jss_worksheet .highlight-bottom {
+    border-bottom:1px solid var(--border_color_highlighted, #000);
+}
+
+.jss_worksheet .highlight-selected
+{
+    background-color: var(--cursor, #eee);
+}
+
+.jss_pagination > div > div
+{
+    color: var(--header_color, #000);
+    background: var(--header_background, #f3f3f3);
+    border: 1px solid var(--border_color, #ccc);
+}
+
+.jss_toolbar
+{
+    background-color: var(--header_background, #f3f3f3);
+    color: var(--header_color, #000);
+    border: 1px solid var(--border_color, #ccc);
+}
+
+.jss_toolbar .jtoolbar-item i {
+    color: var(--content_color, #000);
+}
+
+.jss_toolbar .jtoolbar-item:not(.jtoolbar-divisor):hover,
+.jss_toolbar .jtoolbar-item.jpicker:hover > .jpicker-header {
+    background-color: var(--content_background_highlighted, #f3f3f3);
+    color: var(--content_color_highlighted, #000);
+}
+
+.jss_toolbar .jtoolbar-divisor {
+    background: var(--header_color, #ddd);
+}
+
+.jss_contextmenu {
+    border: 1px solid var(--border_color, #ccc);
+    background: var(--menu_background, #fff);
+    color: var(--menu_color, #555);
+    box-shadow: var(--menu_box_shadow, 2px 2px 2px 0px rgba(143, 144, 145, 1));
+    -webkit-box-shadow: var(--menu_box_shadow, 2px 2px 2px 0px rgba(143, 144, 145, 1));
+    -moz-box-shadow: var(--menu_box_shadow, 2px 2px 2px 0px rgba(143, 144, 145, 1))
+}
+
+.jss_contextmenu>div a {
+    color: var(--menu_color, #555);
+}
+
+.jss_contextmenu>div:not(.contextmenu-line):hover a {
+    color: var(--menu_color_highlighted, #555);
+}
+
+.jss_contextmenu>div:not(.contextmenu-line):hover {
+    background: var(--menu_background_highlighted, #ebebeb);
+}
+
+.jss_container input {
+    color: var(--header_color, #000);
+    background: var(--header_background, #f3f3f3);
+}
+
+/* added the below to get it right */
+
+.jss_worksheet > tfoot > tr > td
+{
+    border-top: 1px solid var(--border_color, #ccc);
+    border-left: 1px solid var(--border_color, #ccc);
+    background-color: var(--header_background, #f3f3f3);
+    color: var(--header_color, #000);    
+}
+
+.jss_worksheet {
+    background-color: var(--content_background, #fff);
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid var(--border_color, #ccc);
+    border-bottom: 1px solid var(--border_color, #ccc);
+}
+
+.jss_content {
+    border: 1px solid var(--border_color, #ccc)
+}
+
+.jss_worksheet > tbody > tr > td.readonly
+{
+    color: var(--lib4x_content_readonly_color, rgba(0,0,0,0.3));
+}
+
+.jss_worksheet .highlight-selected, .jss_worksheet .highlight
+{
+    background-color: var(--content_background_highlighted, var(--a-gv-selected-background-color, var(--a-palette-primary-shade, #e6f0fa)));
+}
+
+.jss_worksheet .is-updated-gv td:not(.jss_row, .highlight),
+.jss_worksheet .is-updated-sv:not(.is-inserted-gv) td:not(.jss_row, .highlight) {
+  background-color: var(--lib4x_row_updated_background, var(--a-gv-updated-background-color, #F3F8FD))!important;
+}
+
+.jss_worksheet .is-inserted-gv td:not(.jss_row, .highlight),
+.jss_worksheet .is-inserted-sv td:not(.jss_row, .highlight)  {
+  background-color: var(--lib4x_row_inserted_background, var(--a-gv-inserted-background-color, #EDFBF0))!important;
+}
+
+/* Theme class(es) */
+
+.jss_spreadsheet {
+    --border_color: #d4d4d4;            /* the middle between IG vita color and JSS color */
+    --border_color_highlighted: #056AC8;
+}
+
+/* Dark Theme */
+.jss_spreadsheet.jss_theme_dark {
+    --header_color: #888;
+    --header_color_highlighted: #444;
+    --header_background: #313131;
+    --header_background_highlighted: #777;
+    --content_color: #FFF;
+    --lib4x_content_readonly_color: #888;         /* added */
+    --content_color_highlighted: #333;
+    --content_background: #3e3e3e;
+    --content_background_highlighted: #333;
+    --lib4x_row_updated_background: #212268;     /* added */
+    --lib4x_row_inserted_background: #485f43;    /* added */
+    --menu_background: #7e7e7e;
+    --menu_background_highlighted: #ebebeb;
+    --menu_color: #ddd;
+    --menu_color_highlighted: #222;
+    --menu_box_shadow: unset;
+    --border_color: #5f5f5f;
+    --border_color_highlighted: #999;
+    --cursor: #333;
+    --selection: #3b3b3b;
+}

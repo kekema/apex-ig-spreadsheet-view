@@ -54,17 +54,14 @@ IG Spreadsheet View loads the IG model data into an own copy of the data. It als
 
 Here we come to an important point: in this whole process, no Column Item Dynamic Actions are executed! The model is the shared layer between the IG grid and the IG Spreadsheet View and updates do go via the model only. This can have implications. For example when you are using a DA to calculate a line total. You can resolve this by moving the calculation to the model layer and use the model [calcValue](https://docs.oracle.com/en/database/oracle/apex/24.2/aexjs/model.html#.FieldMeta) feature.
 
-In general, for any (business) logic which you have implemented in the IG Grid UI layer, as to make that logic common between the IG Grid View and the IG Spreadsheet View, you have next options:
+In general, for any (business) logic or any validations which you have implemented in the IG Grid UI layer, as to make that logic common between the IG Grid View and the IG Spreadsheet View, you have next options:
 - move logic to the  model layer. A supporting plugin here is the IG Model Logic plugin, which makes implementing logic in the model layer much more convenient.
 - make use of the 'onSynchronizeRow' event handler, which is fired by IG Spreadsheet View - see details below
 - make use of the 'Execute Server-Side IG Row Logic' plugin
 
 To the last option, an example is: 'Additional Columns'. In IG Grid, when you have a Popup LOV column, you might have additional columns populated. In IG Spreadsheet View, you don't have this type of interaction with servers-side data while editing. To still enable populating these additional columns, IG Spreadsheet View emits a 'Synchronize' event which you can select for a Dynamic Action. This event is fired after synchronization of changes to the model is complete. You can then use the DA here to 'Execute Server-Side IG Row Logic' as to read the values for the additional columns for all modified rows, and the plugin will populate the additional columns subsequently.
 
-
-
-
-
+Needless to say, your regular server-side logic and validations offer the real protection of your data.
 
 
 

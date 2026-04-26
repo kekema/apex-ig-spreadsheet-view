@@ -63,6 +63,30 @@ To the last option, an example is: 'Additional Columns'. In IG Grid, when you ha
 
 Needless to say, your regular server-side logic and validations offer the real protection of your data.
 
+### Further Details
+In Attributes/Initialization JavaScript Function, you can configure some further options. For example the maximum number of rows which can be loaded:
+
+```
+function(options)
+{
+    options.maxRows = 7000;
+    return options;
+}
+```
+
+Next options can be configured:
+- <ins>maxRows</ins> (number): the Spreadsheet View will open with the data as currently loaded into the IG model. By using the 'Load All' button, it will load all with a maximum of maxRows. The default is 5000.
+- <ins>maxAdditionalRows</ins> (number): by using 'Add' button, new rows can be added to the sheet. Also new rows will be added in case you copy data from Excel where the number of rows exceeds the current end of the data in the IG Spreadsheet View. This option reflects the max number of rows which can be added. The default is 1000.
+- <ins>excludeCalculatedColumns</ins> (boolean): default is false. If set to true, columns which have the [calcValue](https://docs.oracle.com/en/database/oracle/apex/24.2/aexjs/model.html#.FieldMeta) function configured will be skipped.
+- <ins>applyReadOnlyCells</ins> (boolean): in case there are individual IG cells which are Read-Only (configured on model level via the fieldmetadata ck property), then by default these cells are not Read-Only in the IG Spreadsheet View. This fits to the optimistic editing mode of the spreadsheet view. So the default is false. You can override this behavior by setting this option to true.
+- <ins>applyHighlighting</ins> (boolean): when the user has defined any Highlighting in the IG Grid, by default the Highlighting will also be shown in the Spreadsheet View. So default is true. You can switch it off with this option. There is also a button in the IG Spreadsheet View toolbar in case of Highlighting to enable the user to hide it.
+- <ins>buttons.editOnFocus</ins> (boolean): default is true, but optionally you can get rid of this button using this setting
+- <ins>rememberDialogCoordinates</ins> (boolean): by default, when opening the IG Spreadsheet View, it will use default coordinates (X, Y position, height, width). So default of this option is false. By setting it to yes, the dialog will open with previous coordinates.
+- <ins>helpText</ins> (string): can be used in case you want to have your own help text behind the toolbar help button
+- <ins>additionalHelpText</ins> (string): can be used to add extra help text in addition to the default help text
+- <ins>buttons.ig.revertAll</ins> (boolean): default is false. Set to true in case you want a 'Revert All' button in the IG toolbar as to quickly undo all current changes (including inserts and deletes)
+  
+
 <h3>Plugin versions</h3>
 Version 1.0.0 - build under APEX 24.2<br>
 

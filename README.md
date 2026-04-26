@@ -64,6 +64,7 @@ To the last option, an example is: 'Additional Columns'. In IG Grid, when you ha
 Needless to say, your regular server-side logic and validations offer the real protection of your data.
 
 ### Further Details
+##### Options
 In Attributes/Initialization JavaScript Function, you can configure some further options. For example the maximum number of rows which can be loaded:
 
 ```
@@ -85,7 +86,39 @@ Next options can be configured:
 - <ins>helpText</ins> (string): can be used in case you want to have your own help text behind the toolbar help button
 - <ins>additionalHelpText</ins> (string): can be used to add extra help text in addition to the default help text
 - <ins>buttons.ig.revertAll</ins> (boolean): default is false. Set to true in case you want a 'Revert All' button in the IG toolbar as to quickly undo all current changes (including inserts and deletes)
-  
+
+##### Event Handlers
+You can register next event handlers: 'onChange' and 'onSynchronizeRow'. It's a programmatic construct. A context object is supplied with relevant details and some available methods on the prototype.<br/>
+For 'onChange' (triggered upon cell value change):
+<p>
+<img width="40%" height="40%" alt="image" src="https://github.com/user-attachments/assets/a5c1f9d7-b6d6-4446-8573-3325bbcef2cb" />
+</p>
+For 'onSynchronizeRow':<br/>
+<p>
+<img width="80%" height="80%" alt="image" src="https://github.com/user-attachments/assets/ddb9fb2b-c6eb-40b6-aab3-162aa412c287" />   
+</p>
+
+```
+$(function(){
+    lib4x?.ig?.spreadsheetView?.registerHandlers('ig_order_lines', {
+        onChange: function(ctx){
+            if (ctx.columnName == 'QUANTITY' || ctx.columnName == 'UNIT_PRICE')  
+            {          
+                let quantity = ctx.getValue('QUANTITY');
+                let unit_price = ctx.getValue('UNIT_PRICE');
+                ctx.setValue('LINE_TOTAL', quantity * unit_price, true);                
+            }         
+        }
+        /*,
+        onSynchronizeRow: function(ctx)
+        {
+
+        }*/
+    });
+});
+```
+
+Notice, for 'onChange', canonical values are used for the method arguments.
 
 <h3>Plugin versions</h3>
 Version 1.0.0 - build under APEX 24.2<br>

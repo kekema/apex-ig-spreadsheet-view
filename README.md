@@ -63,5 +63,12 @@ To the last option, an example is: 'Additional Columns'. In IG Grid, when you ha
 
 Needless to say, your regular server-side logic and validations offer the real protection of your data.
 
+<h3>Plugin versions</h3>
+Version 1.0.0 - build under APEX 24.2<br>
 
+<h3>Third-Party Libraries and Licenses</h3>
 
+This software uses:<br>
+[JSpreadsheet CE](https://bossanova.uk/jspreadsheet/), which is licensed under the MIT License.<br>
+Copyright (c) 2024 Jspreadsheet Ltd<br>
+[License](https://github.com/jspreadsheet/ce/blob/master/LICENSE) | [Project](https://github.com/jspreadsheet/ce)

@@ -64,7 +64,7 @@ To the last option, an example is: 'Additional Columns'. In IG Grid, when you ha
 Needless to say, your regular server-side logic and validations offer the real protection of your data.
 
 ### Further Details
-##### Options
+#### Options
 In Attributes/Initialization JavaScript Function, you can configure some further options. For example the maximum number of rows which can be loaded:
 
 ```
@@ -87,7 +87,7 @@ Next options can be configured:
 - <ins>additionalHelpText</ins> (string): can be used to add extra help text in addition to the default help text
 - <ins>buttons.ig.revertAll</ins> (boolean): default is false. Set to true in case you want a 'Revert All' button in the IG toolbar as to quickly undo all current changes (including inserts and deletes)
 
-##### Event Handlers
+#### Event Handlers
 You can register next event handlers: 'onChange' and 'onSynchronizeRow'. It's a programmatic construct. A context object is supplied with relevant details and some available methods on the prototype.<br/>
 For 'onChange' (triggered upon cell value change):
 <p>
@@ -118,7 +118,13 @@ $(function(){
 });
 ```
 
-Notice, for 'onChange', canonical values are used for the method arguments.
+Notice, for 'onChange', native JS values are used for number/date method arguments.
+
+#### DA Event
+The 'Synchronize' event is emited when all changed rows are synchronized with the IG model. So you can utilize this event for any DA you want to execute:
+<p>
+<img width="40%" height="40%" alt="image" src="https://github.com/user-attachments/assets/047d86e5-4122-405b-9cae-1109c8c1a6ba" />
+</p>
 
 <h3>Plugin versions</h3>
 Version 1.0.0 - build under APEX 24.2<br>

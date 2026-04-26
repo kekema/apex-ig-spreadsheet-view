@@ -1,5 +1,5 @@
 # apex-ig-spreadsheet-view
-Adds a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel.
+Adds a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel. Offering the end user an extra editing view with it's own characteristics.
 
 <p>
 <img src="./ig-spreadsheetview.jpg" height="100%" width="100%">

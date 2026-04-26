@@ -59,7 +59,7 @@ In general, for any (business) logic or any validations which you have implement
 - make use of the 'onSynchronizeRow' event handler, which is fired by IG Spreadsheet View - see details below
 - make use of the 'Execute Server-Side IG Row Logic' plugin
 
-To the last option, an example is: 'Additional Columns'. In IG Grid, when you have a Popup LOV column, you might have additional columns populated. In IG Spreadsheet View, you don't have this type of interaction with servers-side data while editing. To still enable populating these additional columns, IG Spreadsheet View emits a 'Synchronize' event which you can select for a Dynamic Action. This event is fired after synchronization of changes to the model is complete. You can then use the DA here to 'Execute Server-Side IG Row Logic' as to read the values for the additional columns for all modified rows, and the plugin will populate the additional columns subsequently.
+To the last option, an example is: 'Additional Outputs'. In IG Grid, when you have a Popup LOV column, you might have additional columns populated. In IG Spreadsheet View, you don't have this type of interaction with servers-side data while editing. To still enable populating these additional columns, IG Spreadsheet View emits a 'Synchronize' event which you can select for a Dynamic Action. This event is fired after synchronization of changes to the model is complete. You can then use the DA here to 'Execute Server-Side IG Row Logic' as to read the values for the additional columns for all modified rows, and the plugin will populate the additional columns subsequently.
 
 Needless to say, your regular server-side logic and validations offer the real protection of your data.
 

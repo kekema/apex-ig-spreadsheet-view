@@ -1,0 +1,35 @@
+{
+    "name" : "IG Spreadsheet View",
+    "version" : "1.0.0",
+    "description" : "Adds a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel. #lib4x",
+    "keywords" : ["Spreadsheet", "Excel", "Interactive Grid"],
+    "homepage" : "https://github.com/kekema/apex-ig-spreadsheet-view",
+    "bugs" : {
+      "url" : "https://github.com/kekema/apex-ig-spreadsheet-view/issues",
+      "email" : "karel0008@gmail.com"
+    },
+    "license" : "MIT",
+    "commercial" : "No",
+    "author" : {
+      "name" : "Karel Ekema",
+      "email" : "karel0008@gmail.com",
+      "url" : "https://karelekema.hashnode.dev",
+      "twitter": "@KarelEkema"
+    },
+    "repository" : {
+      "type" : "git",
+      "url" : "https://github.com/kekema/apex-ig-spreadsheet-view"
+    },
+    "oracle" : {
+      "versions": ["19.0.0.0"],	
+      "apex" : {
+        "versions" : ["24.2"],
+        "plugin" : {
+          "internalName" : "LIB4X.AXT.IG.SPREADSHEETVIEW",
+          "type" : "region",
+          "demo" : "https://oracleapex.com/ords/r/yola/demo/ig-spreadsheet-view",
+          "previewImage" : "https://github.com/kekema/apex-ig-spreadsheet-view/blob/main/ig-spreadsheetview.jpg?raw=true"
+        }
+      }
+    }
+}

@@ -33,6 +33,34 @@ You can use the other familiar spreadsheet type of editing features like selecti
 
 Ctrl+Z/Ctrl+Y: shortcut keys for Undo/Redo. This will apply to changes which haven't been synchronized to the Grid yet.
 
+### Technical Background
+The plugin utilizes the [JSpreadsheet CE](https://bossanova.uk/jspreadsheet/) open-source spreadsheet component (JSS). JSS enables to add custom editors (custom column types). The IG Spreadsheet View plugin supports next column types:
+- Text
+- Number
+- Date Picker
+- Select List
+- Checkbox
+- Switch
+- Radio group (2 options)
+- Pill Buttons
+- Select One
+
+Here, Checkbox, Switch, Radio Group and Pill Buttons are so called Simple Choice columns, selecting out of 2 options. 
+The Spreadsheet View inherits as much as possible from the IG column definitions. So Date Picker will look the same; a Number column will have same Format Mask (if any), etc. 
+A Radio Group in IG will also be a Radio Group in Spreadsheet View if it has 2 options. Else, a Select List will be used. A Popup LOV column in IG will be a Select One column in Spreadsheet View. <br/>
+Cascading List of Values are not supported - this is technically out of reach in a spreadsheet which has a much more free style of editing. Also Multi Value columns are not supported. Non supported IG columns are becoming Read-Only columns in Spreadsheet View.
+
+IG Spreadsheet View loads the IG model data into an own copy of the data. It also maintains it's own metadata to keep track of what data has changed. Upon OK or Synchronize, the changes are updated back into the IG model data. This includes inserts and deletes. It will check if model updates are allowed. Also basic validations will be done, like Value Required, valid number, Min/Max number, valid date, etc. 
+
+Here we come to an important point: in this whole process, no Column Item Dynamic Actions are executed! The model is the shared layer between the IG grid and the IG Spreadsheet View and updates do go via the model only. This can have implications. For example when you are using a DA to calculate a line total. You can resolve this by moving the calculation to the model layer and use the model [calcValue](https://docs.oracle.com/en/database/oracle/apex/24.2/aexjs/model.html#.FieldMeta) feature.
+
+In general, for any (business) logic which you have implemented in the IG Grid UI layer, as to make that logic common between the IG Grid View and the IG Spreadsheet View, you have next options:
+- move logic to the  model layer. A supporting plugin here is the IG Model Logic plugin, which makes implementing logic in the model layer much more convenient.
+- make use of the 'onSynchronizeRow' event handler, which is fired by IG Spreadsheet View - see details below
+- make use of the 'Execute Server-Side IG Row Logic' plugin
+
+To the last option, an example is: 'Additional Columns'. In IG Grid, when you have a Popup LOV column, you might have additional columns populated. In IG Spreadsheet View, you don't have this type of interaction with servers-side data while editing. To still enable populating these additional columns, IG Spreadsheet View emits a 'Synchronize' event which you can select for a Dynamic Action. This event is fired after synchronization of changes to the model is complete. You can then use the DA here to 'Execute Server-Side IG Row Logic' as to read the values for the additional columns for all modified rows, and the plugin will populate the additional columns subsequently.
+
 
 
 

@@ -1,6 +1,8 @@
 # apex-ig-spreadsheet-view
 Adds a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel. Offering the end user an extra editing view with it's own characteristics.
 
+See this [blog item](https://karelekema.hashnode.dev/oracle-apex-ig-spreadsheet-view-plugin) for a feature overview.
+
 <p>
 <img src="./ig-spreadsheetview.jpg" height="100%" width="100%">
 </p>
@@ -12,7 +14,7 @@ To configure, create a new Region and select 'LIB4X - IG Spreadsheet View' as th
 <img alt="image" src="https://github.com/user-attachments/assets/8ce5f930-31e5-4f38-adac-0a8598fcfd04" height="40%" width="40%" />
 </p>
 <p>
-In the IG toolbar, and extra item will show up, which starts the Spreadsheet View in a Modal Dialog.
+In the IG toolbar, an extra item will show up, which starts the Spreadsheet View in a Modal Dialog.
 </p>
 <p>
 <img alt="image" src="https://github.com/user-attachments/assets/8b80ff30-ae02-44b5-aed7-69418c75d30e" height="30%" width="30%" />

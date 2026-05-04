@@ -57,7 +57,7 @@ IG Spreadsheet View loads the IG model data into an own copy of the data. It als
 Here we come to an important point: in this whole process, no Column Item Dynamic Actions are executed! The model is the shared layer between the IG grid and the IG Spreadsheet View and updates do go via the model only. This can have implications. For example when you are using a DA to calculate a line total. You can resolve this by moving the calculation to the model layer and use the model [calcValue](https://docs.oracle.com/en/database/oracle/apex/24.2/aexjs/model.html#.FieldMeta) feature.
 
 In general, for any (business) logic or any validations which you have implemented in the IG Grid UI layer, as to make that logic common between the IG Grid View and the IG Spreadsheet View, you have next options:
-- move logic to the  model layer. A supporting plugin here is the IG Model Logic plugin, which makes implementing logic in the model layer much more convenient.
+- move logic to the  model layer. A supporting plugin here is the [IG Model Logic](https://github.com/kekema/apex-ig-model-logic) plugin, which makes implementing logic in the model layer much more convenient.
 - make use of the 'onSynchronizeRow' event handler, which is fired by IG Spreadsheet View - see details below
 - make use of the 'Execute Server-Side IG Row Logic' plugin
 

@@ -59,7 +59,7 @@ Here we come to an important point: in this whole process, no Column Item Dynami
 In general, for any (business) logic or any validations which you have implemented in the IG Grid UI layer, as to make that logic common between the IG Grid View and the IG Spreadsheet View, you have next options:
 - move logic to the  model layer. A supporting plugin here is the [IG Model Logic](https://github.com/kekema/apex-ig-model-logic) plugin, which makes implementing logic in the model layer much more convenient.
 - make use of the 'onSynchronizeRow' event handler, which is fired by IG Spreadsheet View - see details below
-- make use of the 'Execute Server-Side IG Row Logic' plugin
+- make use of the '[Execute Server-Side IG Row Logic](https://github.com/kekema/apex-ig-server-side-logic)' plugin
 
 To the last option, an example is: 'Additional Outputs'. In IG Grid, when you have a Popup LOV column, you might have additional columns populated. In IG Spreadsheet View, you don't have this type of interaction with servers-side data while editing. To still enable populating these additional columns, IG Spreadsheet View emits a 'Synchronize' event which you can select for a Dynamic Action. This event is fired after synchronization of changes to the model is complete. You can then use the DA here to 'Execute Server-Side IG Row Logic' as to read the values for the additional columns for all modified rows, and the plugin will populate the additional columns subsequently.
 

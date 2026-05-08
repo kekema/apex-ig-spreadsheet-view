@@ -1,6 +1,6 @@
 {
     "name" : "IG Spreadsheet View",
-    "version" : "1.0.0",
+    "version" : "1.0.1",
     "description" : "Adds a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel. #lib4x",
     "keywords" : ["Spreadsheet", "Excel", "Interactive Grid"],
     "homepage" : "https://github.com/kekema/apex-ig-spreadsheet-view",

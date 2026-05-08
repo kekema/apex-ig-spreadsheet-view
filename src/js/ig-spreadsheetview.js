@@ -4,6 +4,7 @@ window.lib4x.axt.ig = window.lib4x.axt.ig || {};
 
 /*
  * Region Plugin, enabling to add a Spreadsheet View to Interactive Grids for fast data editing, with support for copy-and-paste to and from Excel.
+ * The plugin utilizes JSpreadsheet CE (https://github.com/jspreadsheet/ce).
  */
 lib4x.axt.ig.spreadsheetView = (function ($) {
 
@@ -443,9 +444,6 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                             let textResult = '';
                             // next is already added by the clipboard API: '<html><body><!--StartFragment-->'
                             // Future: enable extra style from configuration? (also on TD level?)
-                            // TODO let decimalSeparator = apex.locale.getDecimalSeparator();
-                            // TODO let thousandSeparator = apex.locale.getGroupSeparator();
-                            // TODO out.markup('<style>table {mso-displayed-decimal-separator: "' + decimalSeparator + '"; mso-displayed-thousand-separator: "' + thousandSeparator + '"; white-space: nowrap;}</style>');
                             out.markup('<style>table {mso-displayed-decimal-separator: "."; mso-displayed-thousand-separator: ","; white-space: nowrap;}</style>');
                             out.markup('<table><tbody>');
                             let svColumns = instance.options.columns;
@@ -525,13 +523,8 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                     },
                     onbeforechange(instance, cell, colIndex, rowIndex, newValue)
                     {
-                        // any conversion from input to data value
-                        // store old/prev value in the dataset metadata
-                        //
                         if (!instance.options.lib4x.suppressChangeEvent)
                         {
-                            // when column is a number column, the value entered or pasted by user will be a string; 
-                            // when programmatically set, it can also be a real number (same as in APEX)
                             let svColumn = instance.options.columns[colIndex];
                             // In theory, values can contain CR/LF (\r\n) for example if the value comes via copy/paste from Windows. 
                             // APEX uses \n only (unix standard) so we convert here any occurences 
@@ -709,6 +702,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         // conversion and normalization of clipboard data
                         // notice: when pasting a value for a (text) cell which is equal to the 
                         // current value, still onBeforeChange/onChange will be called by JSS
+                        // which is not causing any issue, but it gets added to the history
                         if (!Array.isArray(data)) return data;                        
                         
                         function extractSeparators(doc) 
@@ -1477,103 +1471,55 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         let svColumn = svColumns[change.x];
                         let colAggs = aggregators[svColumn.name];
                         if (!colAggs) return;
-
-                        /*let newVal, oldVal;           // TODO: remove
-                        // for undo, it is reverse
-                        if (action == 'undo')
-                        {
-                            newVal = Number(change.oldValue);
-                            oldVal = Number(change.value);                            
-                        }
-                        else
-                        {
-                            newVal = Number(change.value);
-                            oldVal = Number(change.oldValue);                            
-                        }*/
-
                         let newRaw = (action === 'undo') ? change.oldValue : change.value;
                         let oldRaw = (action === 'undo') ? change.value : change.oldValue;
-
                         let newIsValid = newRaw !== '' && newRaw != null && !isNaN(Number(newRaw));
                         let oldIsValid = oldRaw !== '' && oldRaw != null && !isNaN(Number(oldRaw));
-
                         let newVal = newIsValid ? Number(newRaw) : 0;
                         let oldVal = oldIsValid ? Number(oldRaw) : 0;
-
-                        /*colAggs.forEach(agg => {      // TODO: remove
-                            if (agg.type === "SUM") {
-                                agg.value += (newVal || 0) - (oldVal || 0);
-                            }
-                            if (agg.type === "AVG") {
-                                agg.sum += (newVal || 0) - (oldVal || 0);
-                                agg.value = agg.sum / agg.count;
-                            }
-                            // MIN/MAX need fallback handling
-                            if (agg.type === "MIN") {
-                                if (newVal < agg.value)
-                                {
-                                    agg.value = newVal;
-                                }
-                                else if (oldVal === agg.value)
-                                {
-                                    // current min was edited to a higher value; need to find out min from all
-                                    recalculateAll = true;
-                                }
-                            }                           
-                            if (agg.type === "MAX") {
-                                if (newVal > agg.value)
-                                {
-                                    agg.value = newVal;
-                                }
-                                else if (oldVal === agg.value)
-                                {
-                                    // current max was edited to a lower value; need to find out max from all
-                                    recalculateAll = true;
-                                }
-                            }
-                        });*/
                         colAggs.forEach(agg => {
-
-                            if (agg.type === "SUM") {
+                            if (agg.type === "SUM") 
+                            {
                                 agg.value += newVal - oldVal;
                             }
-
-                            if (agg.type === "AVG") {
-
+                            if (agg.type === "AVG") 
+                            {
                                 // adjust sum
                                 agg.sum += newVal - oldVal;
-
                                 // adjust count
-                                if (newIsValid && !oldIsValid) {
+                                if (newIsValid && !oldIsValid) 
+                                {
                                     agg.count++;
                                 }
-                                else if (!newIsValid && oldIsValid) {
+                                else if (!newIsValid && oldIsValid) 
+                                {
                                     agg.count--;
                                 }
-
                                 agg.value = agg.count ? (agg.sum / agg.count) : 0;
                             }
-
-                            if (agg.type === "MIN") {
-                                if (newIsValid && newVal < agg.value) {
+                            if (agg.type === "MIN") 
+                            {
+                                if (newIsValid && newVal < agg.value) 
+                                {
                                     agg.value = newVal;
                                 }
-                                else if (oldIsValid && oldVal === agg.value) {
+                                else if (oldIsValid && oldVal === agg.value) 
+                                {
                                     recalculateAll = true;
                                 }
                             }
-
-                            if (agg.type === "MAX") {
-                                if (newIsValid && newVal > agg.value) {
+                            if (agg.type === "MAX") 
+                            {
+                                if (newIsValid && newVal > agg.value) 
+                                {
                                     agg.value = newVal;
                                 }
-                                else if (oldIsValid && oldVal === agg.value) {
+                                else if (oldIsValid && oldVal === agg.value) 
+                                {
                                     recalculateAll = true;
                                 }
                             }
-
                         });
-
                         updatedColumns.add(svColumn.name);
                     });
                     if (recalculateAll)
@@ -2528,7 +2474,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                     svColumn.name = igColumn.property;
                     svColumn.title = igColumn.label;    // is either 'Alternative Label' or 'Heading'
                     svColumn.type = 'text'; // default to text
-                    svColumn.width = igColumn.curWidth;
+                    svColumn.width = igColumn.curWidth * 0.97;
                     svColumn.align = { start: 'left', end: 'right' }[igColumn.alignment] ?? 'center';
                     svColumn.lib4x.apexItem = apexItem;
                     svColumn.lib4x.defaultValue = igColumn.defaultValue;
@@ -2623,10 +2569,6 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                     if (itemType == 'NUMBER') 
                     {
                         // contrary to IG model, numbers in the worksheet are kept as real numbers
-                        // when the user gives text or alphanumeric input, NaN will appear
-                        // there is also a 'numeric' type, but that one is Legacy (v4 and before)
-                        // the 'number' type supports Intl.NumberFormat (not used here)
-                        //svColumn.type = 'number';
                         svColumn.type = svEditors.numberInterface;
                         svColumn.lib4x.columnType = 'lib4x_number';
                         svColumn.readOnly = false;
@@ -2746,7 +2688,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         }                                                
                         svColumn.type = svEditors.checkboxInterface;
                     }
-                    if (itemType == 'CHECKBOX')    // Switch!
+                    if (itemType == 'CHECKBOX') // SWITCH!!
                     {
                         svColumn.readOnly = false;
                         svColumn.lib4x.columnType = 'lib4x_switch';
@@ -2786,7 +2728,16 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         svColumn.lib4x.displayValueFor = function(value)    
                         {
                             return svColumn.lib4x.label[value] ?? '';
-                        }                                                                      
+                        }  
+                        svColumn.lib4x.valueToDataValue = function(value)
+                        {
+                            let result = '';
+                            if (value === svColumn.lib4x.onValue || value === svColumn.lib4x.offValue)
+                            {
+                                result = {v: value, d: svColumn.lib4x.label[value]};
+                            }
+                            return result;
+                        }                                                                                            
                         svColumn.type = svEditors.switchInterface;
                     }         
                     if ((itemType == 'RADIO_GROUP') && (apexItem.element.find('.apex-item-option').length == 2))
@@ -2833,7 +2784,16 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         svColumn.lib4x.displayValueFor = function(value)    
                         {
                             return svColumn.lib4x.label[value] ?? '';
-                        }                                                                   
+                        }            
+                        svColumn.lib4x.valueToDataValue = function(value)
+                        {
+                            let result = '';
+                            if (value === svColumn.lib4x.firstValue || value === svColumn.lib4x.secondValue)
+                            {
+                                result = {v: value, d: svColumn.lib4x.label[value]};
+                            }
+                            return result;
+                        }                                                                                  
                         svColumn.type = svEditors.simpleRadioInterface;                        
                     }   
                     // switch as pill buttons 
@@ -2881,7 +2841,16 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         svColumn.lib4x.displayValueFor = function(value)    
                         {
                             return svColumn.lib4x.label[value] ?? '';
-                        }                                                                        
+                        }     
+                        svColumn.lib4x.valueToDataValue = function(value)
+                        {
+                            let result = '';
+                            if (value === svColumn.lib4x.firstValue || value === svColumn.lib4x.secondValue)
+                            {
+                                result = {v: value, d: svColumn.lib4x.label[value]};
+                            }
+                            return result;
+                        }                                                                                           
                         svColumn.type = svEditors.pillButtonsInterface;                        
                     }                      
                     if (itemType == 'DATE_PICKER')
@@ -3883,7 +3852,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                         'Upon \'OK\', the changes are synchronized back to the Grid. In the Grid, you can address any issues like validation errors and then save the data.</p>' +
                         '<p>Upon selecting a cell, you can directly start typing to replace any current value. Or double-click or use <u>F2</u> to change the existing value.</p>' +
                         '<p>You can use the other familiar spreadsheet type of editing features like selecting cell(s), copy them and paste the values elsewhere. Or use the '+
-                        'Fill Handle (bottom-right corner of a selection) to copy or fill into adjacent cells.<p/>' +
+                        'Fill Handle (bottom-right corner of a selection) to copy or fill into adjacent cells. You can also use copy-and-paste to/from Excel.<p/>' +
                         '<p><u>Edit on Focus</u>: this button enables you to edit cells without need to first use F2 or double click.</p>' +
                         '<p><u>Load All</u>: initially, a subset of data might have been loaded only. Use this button to load all the data. It loads to a maximum of ' + config.options.maxRows + ' rows.</p>' +
                         '<p><u>Synchronize</u>: this button lets you synchronize your changes in between with the Grid without closing the dialog. Any resulting validation errors will be marked and shown in the spreadsheet.</p>' +

@@ -130,6 +130,7 @@ The 'Synchronize' event is emited when all changed rows are synchronized with th
 
 <h3>Plugin versions</h3>
 Version 1.0.0 - build under APEX 24.2<br>
+Version 1.0.1 - build under APEX 24.2<br>
 
 <h3>Third-Party Libraries and Licenses</h3>
 

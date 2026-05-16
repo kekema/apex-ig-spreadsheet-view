@@ -184,6 +184,11 @@
   pointer-events: none;  
 }
 
+.lib4x-SV td a-select .apex-item-comboselect:focus-within {
+  outline: none;
+  outline-offset: unset;
+}
+
 .lib4x-SV td a-select .apex-item-comboselect .a-Button--comboSelect {
   padding: 0px 2px 0px 2px;
   margin: 0px 0px 0px -1px;
@@ -199,8 +204,10 @@
 }
 
 .lib4x-SV td a-select .apex-item-comboselect {
+  display: grid;                /* in 26.1, APEX uses flex  */ 
   grid-template-columns: minmax(0, 1fr) auto auto;
   width: 100%;
+  border-color: transparent;    /* was removed in APEX 26.1 */
 }
 
 .lib4x-SV td a-select .apex-item-comboselect input.apex-item-text {
@@ -263,7 +270,7 @@
 
 .ui-dialog-titlebar-max .ui-icon-max-restore::before {
   --jui-dialog-title-max-icon: "\e00f"; /* glyph for maximize */
-  --jui-dialog-title-close-icon-font-family: "apex-5-icon-font";    
+  --jui-dialog-title-close-icon-font-family: var(--lib4x-icon-font-family, 'apex-core-font');    
   display: block;
   content: var(--jui-dialog-title-max-icon, '\e00f');
   width: var(--jui-dialog-title-close-icon-size, 16px);

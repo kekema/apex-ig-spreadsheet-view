@@ -1541,7 +1541,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                             let svColumn = instance.options.lib4x.columnsByName[columnName];
                             aggregators[columnName].forEach(agg => {
                                 let rowIndex = footerRowIndex[agg.type];
-                                let formattedAggrValue = apex.locale.formatNumber(agg.value, svColumn.customFormat);  
+                                let formattedAggrValue = apex.locale.formatNumber(agg.value, svColumn.customFormat).trim();  
                                 instance.options.footers[rowIndex][svColumn.index] = formattedAggrValue;
                                 $(instance.tfoot).find('tr').eq(rowIndex).find('td').eq(svColumn.index + 1).text(formattedAggrValue);  // +1 for row number column
                             });
@@ -2610,7 +2610,7 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
                             {
                                 unformattedValue = Number(value);
                             }
-                            return isNaN(unformattedValue) ? value: apex.locale.formatNumber(unformattedValue, svColumn.customFormat);
+                            return isNaN(unformattedValue) ? value: apex.locale.formatNumber(unformattedValue, svColumn.customFormat).trim();
                         }
                         svColumn.lib4x.inputToDataValue = function(newValue) {
                             return svColumn.lib4x.toDataValue(newValue);
@@ -4622,6 +4622,12 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
             {
                 config.paginationType = 'PT_SCROLL';
             }
+            let actionsContext = apex.actions.findContext('IGSpreadsheetView', $('#' + svStaticIdSv)[0]);            
+            let filterAction = actionsContext.lookup('radiogroup-filter-rows');
+            if (filterAction)
+            {
+                filterAction.filterChoice = FILTER_ALL;
+            }            
             createSpreadsheetView(svStaticId, true);
         }
         
@@ -5819,6 +5825,11 @@ lib4x.axt.ig.spreadsheetView = (function ($) {
         spreadsheetViewModule.initSV(svStaticId);
         gridModule.initIGs(igStaticId, filterClass, svStaticId);
     };
+
+    const [apexMajorVersion, apexMinorVersion, apexPatchVersion] = apex.env.APEX_VERSION.split('.').map(Number);
+    // APEX 26.1 uses apex-core-font
+    const iconFontFamily = apexMajorVersion >= 26 ? 'apex-core-font' : 'apex-5-icon-font';
+    document.documentElement.style.setProperty('--lib4x-icon-font-family', iconFontFamily);
 
     window.lib4x = window.lib4x || {};
     lib4x.ig = lib4x.ig || {};
